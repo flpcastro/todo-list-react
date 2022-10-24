@@ -1,19 +1,28 @@
 import styles from './Task.module.css';
 
 import { TbTrash } from 'react-icons/tb';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 
-export function Task() {
+import { TaskProps } from '../App';
+
+interface Props {
+  task: TaskProps;
+  onDelete: (taskId: string) => void;
+  onComplete: (taskId: string) => void;
+}
+
+export function Task({ task, onDelete, onComplete }: Props) {
   return (
     <div className={styles.task}>
-      <button className={styles.checkContainer}>
-        <div />
+      <button className={styles.checkContainer} onClick={() => onComplete(task.id)} >
+        { task.isCompleted ? <BsFillCheckCircleFill /> : <div /> }
       </button>
 
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit dolor omnis reprehenderit ut doloribus, officiis est voluptate error, obcaecati soluta ratione non temporibus, impedit vel similique saepe earum voluptatem corrupti?
+      <p className={task.isCompleted ? styles.textCompleted : ""}>
+        {task.title}
       </p>
 
-      <button className={styles.deleteTask}>
+      <button className={styles.deleteTask} onClick={() => onDelete(task.id)}>
         <TbTrash size={20} />
       </button>
     </div>
